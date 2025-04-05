@@ -21,7 +21,7 @@
 
 ## Installation
 
-Click here to install the latest version of the script. TODO: add link lol
+Click [here](https://github.com/loukamb/Knockster/releases/latest/download/index.user.js) to install the latest version of the script. [ViolentMonkey](https://violentmonkey.github.io/)/[GreaseMonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) must be installed.
 
 ## Development
 
