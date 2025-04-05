@@ -1,0 +1,17 @@
+{
+  "name": "knockster",
+  "homepage": "https://github.com/loukamb/Knockster",
+  "scripts": {
+    "build": "node ./make.js",
+    "build:copy": "pnpm build; wl-copy \"$(cat ./dist/index.js)\""
+  },
+  "author": "Louka Ménard Blondin",
+  "license": "GPL-3.0-only",
+  "packageManager": "pnpm@10.7.1",
+  "devDependencies": {
+    "esbuild": "^0.25.2"
+  },
+  "dependencies": {
+    "preact": "^10.26.4"
+  }
+}
