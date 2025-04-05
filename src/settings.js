@@ -55,5 +55,5 @@ export function initSettings() {
     }
   }
   moduleSettings = GM_getValues(moduleRequests)
-  GM_setValues(moduleRequests) // Write defaults, if they don't exist already.
+  GM_setValues(moduleSettings) // Write defaults, if they don't exist already.
 }
