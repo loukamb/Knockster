@@ -7,17 +7,16 @@
 ### Available
 
 - **Link information:** Appends the underlying destination of an _external_ link after its text in a post. Useful to detect disguised links.[^1]
+- **Mute subforums:** Adds a button to subforum categories to hide them. A menu is added at the bottom of the homepage to restore them.[^2]
 - **Hide avatars:** Removes all avatars when enabled.[^3]
 - **Hide backgrounds:** Removes all user backgrounds when enabled.[^3]
-
-### WIP
-
-- **Hide subforums:** Adds a button to subforum categories to hide them. A menu is added at the bottom of the homepage to restore them.[^2]
+- **Hide bad ratings:** Removes negative reactions from posts. Doesn't stop you from rating them.
+- **4chan mode:** Makes everyone anonymous. Same name, same role color. Combine with avatar/background remove for the full experience.[^4]
+- **Thumbnailer:** Downsizes images in posts. Click the images to expand them to full-screen.
 
 ### Planned
 
 - Improved mechanism for detecting when the interface finishes loading.
-- **Suggest something if you want.**
 
 ## Installation
 
@@ -33,9 +32,9 @@ For convenience, if you are on Linux and you have `wl-clipboard` installed, run 
 
 ### Modules
 
-Write new modules in `/src/modules`. Export a `page` function to perform work **after** the page loads and the interface finishes rendering. Export a `load` function to perform work **as soon as possible.**
+Write new modules in `/src/modules`. Include a `page` function in your exported module to perform work **after** the page loads and the interface finishes rendering. Include a `load` function to perform work **as soon as possible.**
 
-Import your module's exports into `/src/modules/_all.js` and add it to the array it exports.
+Import your module's export into `/src/modules/_all.js` and add it to the array.
 
 ## License
 
@@ -44,3 +43,4 @@ Licensed under the GPLv3. See [here](./LICENSE) for more information.
 [^1]: As requested in https://knockout.chat/thread/70864
 [^2]: As requested in https://knockout.chat/thread/70105
 [^3]: As requested in https://knockout.chat/thread/70212
+[^4]: As requested in https://knockout.chat/thread/70975/#post-2568254

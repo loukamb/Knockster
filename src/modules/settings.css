@@ -1,0 +1,84 @@
+.knockster-settings-root {
+  order: 7;
+  height: 100%;
+  display: flex;
+  margin-right: 10px;
+}
+
+.knockster-settings {
+  position: relative;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.knockster-settings i {
+  cursor: pointer;
+  opacity: 75%;
+  transition: 0.2s;
+}
+
+.knockster-settings i:hover {
+  opacity: 100%;
+}
+
+.knockster-settings a {
+  text-decoration: underline;
+}
+
+.knockster-settings .menu {
+  position: absolute;
+  right: 0;
+  top: 100%;
+  min-width: 24rem;
+  background: rgb(31, 44, 57);
+  box-shadow: rgba(17, 16, 16, 0.33) 0px 6px 14px;
+  padding: 1em;
+}
+
+.knockster-module-toggle {
+  display: flex;
+  margin-bottom: 1em;
+}
+
+.knockster-module-toggle .name {
+  margin-bottom: 0.3em;
+}
+
+.knockster-module-toggle .desc {
+  font-size: 0.8em;
+  opacity: 50%;
+}
+
+.knockster-module-toggle .options {
+  display: flex;
+  gap: 0.5em;
+  align-items: center;
+  margin-left: auto;
+}
+
+.knockster-config-popup {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  left: 0;
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 0;
+  border: 0;
+  min-width: 25rem;
+
+  background: rgb(31, 44, 57);
+  box-shadow: rgba(17, 16, 16, 0.33) 0px 6px 14px;
+  color: white;
+}
+
+.knockster-config-popup .popup-title {
+  display: flex;
+  align-items: center;
+  padding: 0.5em;
+  background: #0b0e11;
+}
+
+.knockster-config-popup .popup-title i {
+  margin-left: auto;
+}

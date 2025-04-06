@@ -1,12 +1,12 @@
 import style from "../style"
 
-export const metadata = {
+export default {
   id: "hideavatars",
   name: "Hide avatars",
   desc: "Removes user avatars.",
   default: false,
-}
 
-export function load() {
-  style(".user-avatar{display:none!important;}")
+  load() {
+    style(".user-avatar{display:none!important;}")
+  },
 }

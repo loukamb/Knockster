@@ -1,8 +1,14 @@
+import style from "./style"
 import modules from "./modules/_all"
-import { initSettings, getModuleStatus } from "./settings"
+import { initSettings, isModuleActive } from "./settings"
+
+import knocksterStyles from "./index.css"
 
 /** Load in settings. */
 initSettings()
+
+/** Global stylesheet. */
+style(knocksterStyles)
 
 /** Invoke module page events when nprogress is deleted. */
 new MutationObserver((mutationList) => {
@@ -15,7 +21,7 @@ new MutationObserver((mutationList) => {
             try {
               if (
                 "page" in module &&
-                (module.metadata.force || getModuleStatus(module.metadata.id))
+                (module.force || isModuleActive(module.id))
               ) {
                 module.page()
               }
@@ -33,10 +39,7 @@ new MutationObserver((mutationList) => {
 /** Invoke module load events  */
 for (const module of modules) {
   try {
-    if (
-      "load" in module &&
-      (module.metadata.force || getModuleStatus(module.metadata.id))
-    ) {
+    if ("load" in module && (module.force || isModuleActive(module.id))) {
       module.load()
     }
   } catch (e) {

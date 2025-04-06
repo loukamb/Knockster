@@ -1,59 +1,63 @@
 import modules from "./modules/_all"
 
-/** Object listing current module settings. */
-let moduleSettings
+/** Currently stored module data. */
+let currentModuleData = {}
 
-function save() {
+/**
+ * Save settings.
+ */
+function saveModuleData() {
   const saved = {}
   for (const module of modules) {
-    saved[module.metadata.id] = {
-      active: moduleSettings[module.metadata.id]?.active ?? true,
-      settings:
-        moduleSettings[module.metadata.id]?.settings ??
-        module.metadata.settings,
+    saved[module.id] = {
+      active: currentModuleData[module.id]?.active ?? true,
+      settings: currentModuleData[module.id]?.settings ?? module.settings,
     }
   }
   GM_setValues(saved)
 }
 
-/** Get whether the module is enabled.  */
-export function getModuleStatus(module) {
-  return moduleSettings[module]?.active
+/**
+ * Check if module is active.
+ */
+export function isModuleActive(moduleId) {
+  return currentModuleData[moduleId].active
 }
 
-/** Set whether the module is enabled.  */
-export function setModuleStatus(module, value) {
-  const info = moduleSettings[module] ?? {}
-  if (info !== undefined) {
-    info.active = value
-  }
-  save()
+/**
+ * Enable/disable module.
+ */
+export function setModuleActive(moduleId, value) {
+  currentModuleData[moduleId].active = value ?? true
+  saveModuleData()
 }
 
-/** Get a module setting.  */
-export function getSetting(module, name) {
-  return moduleSettings[module]?.settings?.[name]
+/**
+ * Return settings for provided module.
+ */
+export function getSettings(moduleId) {
+  return currentModuleData[moduleId].settings
 }
 
-/** Set a module setting.  */
-export function setSetting(module, name, value) {
-  const settings = moduleSettings[module]?.settings
-  if (settings !== undefined) {
-    settings[name] = value
-  }
-  save()
+/**
+ * Set settings for provided module.
+ */
+export function setSettings(moduleId, settings) {
+  currentModuleData[moduleId].settings = settings
+  saveModuleData()
 }
 
-/** Load existing settings and set default values otherwise. */
+/**
+ * Load existing settings and set default values otherwise.
+ */
 export function initSettings() {
   const moduleRequests = {}
   for (const module of modules) {
-    /** See https://violentmonkey.github.io/api/gm/#gm_getvalues. */
-    moduleRequests[module.metadata.id] = {
-      active: true,
-      settings: module.metadata.settings,
+    moduleRequests[module.id] = {
+      active: module.default ?? true,
+      settings: module.settings,
     }
   }
-  moduleSettings = GM_getValues(moduleRequests)
-  GM_setValues(moduleSettings) // Write defaults, if they don't exist already.
+  currentModuleData = GM_getValues(moduleRequests)
+  GM_setValues(currentModuleData)
 }

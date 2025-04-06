@@ -1,0 +1,8 @@
+.rating-icon:has(img[alt="Rude"]),
+.rating-icon:has(img[alt="Confusing"]),
+.rating-icon:has(img[alt="Citation Needed"]),
+.rating-icon:has(img[alt="Bad Reading"]),
+.rating-icon:has(img[alt="Late"]),
+.rating-icon:has(img[alt="Disagree"]) {
+  display: none;
+}

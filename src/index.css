@@ -1,0 +1,16 @@
+.knockster-button {
+  appearance: none;
+  color: white;
+  background: rgb(69, 128, 191);
+  padding: calc(12px) calc(16px);
+  font-size: 0.875rem;
+  font-family: "Open Sans", sans-serif;
+  font-weight: bold;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  border: medium;
+  outline: none;
+  cursor: pointer;
+  transition: filter 85ms ease-in-out, box-shadow 85ms ease-in-out;
+}

@@ -8,7 +8,7 @@ const userScriptInfo = `
 // @match       https://knockout.chat/*
 // @grant       GM_getValues
 // @grant       GM_setValues
-// @version     1.0
+// @version     1.1
 // @homepageURL https://github.com/loukamb/Knockster
 // @downloadURL https://github.com/loukamb/Knockster/releases/latest/download/index.user.js
 // @author      https://github.com/loukamb
@@ -20,8 +20,12 @@ const userScriptInfo = `
 esbuild.buildSync({
   entryPoints: ["./src/index.js"],
   outfile: "./dist/index.js",
-  jsxFactory: "h",
+  jsx: "automatic",
+  jsxImportSource: "preact",
   bundle: true,
   minify: true,
   banner: { js: userScriptInfo },
+  loader: {
+    ".css": "text",
+  },
 })
