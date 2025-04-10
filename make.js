@@ -8,7 +8,7 @@ const userScriptInfo = `
 // @match       https://knockout.chat/*
 // @grant       GM_getValues
 // @grant       GM_setValues
-// @version     1.4
+// @version     1.5
 // @homepageURL https://github.com/loukamb/Knockster
 // @downloadURL https://github.com/loukamb/Knockster/releases/latest/download/index.user.js
 // @author      https://github.com/loukamb
