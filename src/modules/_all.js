@@ -8,6 +8,7 @@ import fourchan from "./fourchan"
 import thumbnailer from "./thumbnailer"
 import volumeadjust from "./volumeadjust"
 import ytunembedder from "./ytunembedder"
+import replyresize from "./replyresize"
 
 /** List of all available modules. */
 export default [
@@ -21,4 +22,5 @@ export default [
   thumbnailer,
   volumeadjust,
   ytunembedder,
+  replyresize,
 ]

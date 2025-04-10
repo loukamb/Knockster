@@ -33,6 +33,7 @@
   background: rgb(31, 44, 57);
   box-shadow: rgba(17, 16, 16, 0.33) 0px 6px 14px;
   padding: 1em;
+  font-size: 0.8em;
 }
 
 .knockster-module-toggle {
