@@ -34,7 +34,10 @@ export default {
       /** Create preview element. */
       const previewNode = document.createElement("span")
       const previewIcon = document.createElement("img")
-      previewIcon.setAttribute("src", `https://${href.hostname}/favicon.ico`)
+      previewIcon.setAttribute(
+        "src",
+        `https:///external-content.duckduckgo.com/ip3/${href.hostname}.ico`
+      )
       previewIcon.setAttribute("width", "16")
       previewIcon.setAttribute("height", "16")
       previewIcon.onerror = () => (previewIcon.style.display = "none")
