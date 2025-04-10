@@ -25,7 +25,11 @@ export default {
       }
 
       /** Skip over internal links. */
-      if (href.hostname === "knockout.chat") continue
+      if (
+        href.hostname === "knockout.chat" ||
+        href.hostname === "cdn.knockout.chat"
+      )
+        continue
 
       /** Create preview element. */
       const previewNode = document.createElement("span")

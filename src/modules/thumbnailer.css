@@ -23,4 +23,5 @@
 
 .img-viewer-container > img {
   max-height: 80vh;
+  max-width: 100vw;
 }

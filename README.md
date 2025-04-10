@@ -13,6 +13,8 @@
 - **Hide bad ratings:** Removes negative reactions from posts. Doesn't stop you from rating them.
 - **4chan mode:** Makes everyone anonymous. Same name, same role color. Combine with avatar/background remove for the full experience.[^4]
 - **Thumbnailer:** Downsizes images in posts. Click the images to expand them to full-screen.
+- **Volume adjuster:** Sets a default volume level for embed videos.[^5]
+- **Unembedder:** Converts YouTube embeds to thumbnails so they only load when locked, and fixes some proportions.[^5]
 
 ### Planned
 
@@ -44,3 +46,4 @@ Licensed under the GPLv3. See [here](./LICENSE) for more information.
 [^2]: As requested in https://knockout.chat/thread/70105
 [^3]: As requested in https://knockout.chat/thread/70212
 [^4]: As requested in https://knockout.chat/thread/70975/#post-2568254
+[^5]: As requested in https://knockout.chat/thread/70975/#post-2572022
