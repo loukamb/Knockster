@@ -16,9 +16,12 @@ export default {
     const replyTextBox = document.querySelector('textarea[name="content"]')
     if (replyTextBox) {
       const onMouseUp = () =>
-        (replyTextBox.style.minHeight = `${replyTextBox.offsetHeight}px`)
+        (replyTextBox.style.minHeight = `${Math.max(
+          120,
+          replyTextBox.offsetHeight
+        )}px`)
       const onMouseDown = () => {
-        replyTextBox.style.height = replyTextBox.style.minHeight
+        replyTextBox.style.height = Math.max(120, replyTextBox.style.minHeight)
         replyTextBox.style.minHeight = `unset`
       }
       replyTextBox.addEventListener("mouseup", onMouseUp)
