@@ -36,7 +36,7 @@ export default {
       const previewIcon = document.createElement("img")
       previewIcon.setAttribute(
         "src",
-        `https:///external-content.duckduckgo.com/ip3/${href.hostname}.ico`
+        `https://external-content.duckduckgo.com/ip3/${href.hostname}.ico`
       )
       previewIcon.setAttribute("width", "16")
       previewIcon.setAttribute("height", "16")
