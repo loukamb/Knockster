@@ -37,6 +37,7 @@ export default {
       previewIcon.setAttribute("src", `https://${href.hostname}/favicon.ico`)
       previewIcon.setAttribute("width", "16")
       previewIcon.setAttribute("height", "16")
+      previewIcon.onerror = () => (previewIcon.style.display = "none")
       previewNode.className = "knockster-linkinfo"
       previewNode.append(document.createTextNode(" ("))
       previewNode.append(previewIcon)
