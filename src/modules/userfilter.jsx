@@ -61,6 +61,8 @@ function applyGlobalStyles() {
   }
 }
 
+let existingPlaceholders = []
+
 function applyFilters() {
   applyGlobalStyles()
   const filters = getFilters()
@@ -183,6 +185,7 @@ function applyFilters() {
         const placeholder = document.createElement("div")
         placeholder.className = "knockster-userfilter-reveal-placeholder"
         placeholder.style.width = "100%"
+        existingPlaceholders.push(placeholder)
 
         const revealBtn = document.createElement("button")
         revealBtn.className = "knockster-button knockster-userfilter-reveal-btn"
@@ -190,12 +193,15 @@ function applyFilters() {
         revealBtn.textContent = "Show post (muted)"
         revealBtn.onclick = (e) => {
           e.preventDefault()
-          placeholder.replaceWith(postContainer)
+          //placeholder.replaceWith(postContainer)
+          postContainer.style.display = ""
+          placeholder.style.display = "none"
           postContainer.knocksterUserfilterReplaced = false
         }
 
         placeholder.appendChild(revealBtn)
-        postContainer.parentNode.replaceChild(placeholder, postContainer)
+        postContainer.style.display = "none"
+        postContainer.insertAdjacentElement("afterend", placeholder)
         postContainer.knocksterUserfilterReplaced = true
         postContainer.knocksterUserfilterPlaceholder = placeholder
       }
@@ -211,36 +217,43 @@ export default {
   settings: { filters: {}, hideAvatars: false, hideBackgrounds: false },
 
   page() {
+    // First thing first
+    for (const placeholder of existingPlaceholders) {
+      placeholder.remove()
+    }
+    existingPlaceholders = []
+
+    // Then apply the filters
     applyFilters()
   },
 
   config() {
     const [filters, setFiltersState] = useState(getFilters())
     const [global, setGlobal] = useState(getGlobalSettings())
-    // Listen for settings changes (not reactive, but good enough for now)
+
     const update = () => setFiltersState(getFilters())
     const updateGlobal = () => setGlobal(getGlobalSettings())
 
-    // Remove a user from filters
     const removeUser = (userId) => {
       const newFilters = { ...getFilters() }
       delete newFilters[userId]
       setFilters(newFilters)
       update()
     }
-    // Toggle a filter for a user
+
     const toggle = (userId, key) => {
       const f = { ...getFilters()[userId] }
       f[key] = !f[key]
       setFilters({ ...getFilters(), [userId]: f })
       update()
     }
-    // Toggle global avatar/background hiding
+
     const toggleGlobal = (key) => {
       setGlobalSettings({ [key]: !global[key] })
       updateGlobal()
       setTimeout(applyGlobalStyles, 0)
     }
+
     const userIds = Object.keys(filters)
     return (
       <div>
