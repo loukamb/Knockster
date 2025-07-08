@@ -29,16 +29,20 @@
   position: absolute;
   right: 0;
   top: 100%;
+  margin-top: 20px;
   min-width: 24rem;
   background: rgb(31, 44, 57);
   box-shadow: rgba(17, 16, 16, 0.33) 0px 6px 14px;
-  padding: 1em;
   font-size: 0.8em;
 }
 
 .knockster-module-toggle {
   display: flex;
-  margin-bottom: 1em;
+  padding: 0.5em 1em;
+}
+
+.knockster-module-toggle:hover {
+  background: rgb(22, 29, 36);
 }
 
 .knockster-module-toggle .name {
@@ -67,6 +71,7 @@
   padding: 0;
   border: 0;
   min-width: 25rem;
+  z-index: 55;
 
   background: rgb(31, 44, 57);
   box-shadow: rgba(17, 16, 16, 0.33) 0px 6px 14px;
@@ -82,4 +87,10 @@
 
 .knockster-config-popup .popup-title i {
   margin-left: auto;
+}
+
+.knockster-settings-footer {
+  padding: 1em;
+  font-size: 0.8em;
+  opacity: 50%;
 }

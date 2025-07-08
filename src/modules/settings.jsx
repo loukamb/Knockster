@@ -5,7 +5,7 @@ import modules from "./_all"
 import { isModuleActive, setModuleActive } from "../settings"
 
 import { render, h } from "preact"
-import { useState } from "preact/hooks"
+import { useState, useRef, useEffect } from "preact/hooks"
 
 function ModuleToggle({ module }) {
   const [configShown, setConfigShown] = useState(false)
@@ -53,12 +53,25 @@ function ModuleToggle({ module }) {
 
 function SettingsMenu() {
   const [menuShown, setMenuShown] = useState(false)
+  const menuRef = useRef(null)
+
+  useEffect(() => {
+    if (!menuShown) return
+    function handleClick(e) {
+      if (menuRef.current && !menuRef.current.contains(e.target)) {
+        setMenuShown(false)
+      }
+    }
+    document.addEventListener("mousedown", handleClick)
+    return () => document.removeEventListener("mousedown", handleClick)
+  }, [menuShown])
 
   return (
-    <div class="knockster-settings">
+    <div class="knockster-settings" ref={menuRef}>
       <i
-        onClick={() => setMenuShown(!menuShown)}
         class="fa-solid fa-wand-magic-sparkles"
+        onClick={() => setMenuShown(!menuShown)}
+        title="Knockster settings"
       ></i>
 
       {menuShown && (
@@ -66,7 +79,7 @@ function SettingsMenu() {
           {modules.map((module) => (
             <ModuleToggle key={module.id} module={module} />
           ))}
-          <div>
+          <div class="knockster-settings-footer">
             Refresh to apply changes.{" "}
             <a href="https://github.com/loukamb/knockster" target="_blank">
               Source

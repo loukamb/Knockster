@@ -7,9 +7,10 @@
 ### Available
 
 - **Link information:** Appends the underlying destination of an _external_ link after its text in a post. Useful to detect disguised links.[^1]
-- **Mute subforums:** Adds a button to subforum categories to hide them. A menu is added at the bottom of the homepage to restore them.[^2]
-- **Hide avatars:** Removes all avatars when enabled.[^3]
-- **Hide backgrounds:** Removes all user backgrounds when enabled.[^3]
+- **Homepage improvements:**
+  - Adds a button to subforum categories to hide them. A menu is added at the bottom of the homepage to restore them.[^2]
+  - **NEW!** Pin subforums to the top of the homepage for easy access.
+- **NEW!** User filters: Mute avatars, backgrounds, and users, either globally or individually.
 - **Hide bad ratings:** Removes negative reactions from posts. Doesn't stop you from rating them.
 - **4chan mode:** Makes everyone anonymous. Same name, same role color. Combine with avatar/background remove for the full experience.[^4]
 - **Thumbnailer:** Downsizes images in posts. Click the images to expand them to full-screen.

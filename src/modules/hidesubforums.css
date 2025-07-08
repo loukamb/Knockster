@@ -1,4 +1,9 @@
-.knockster-hide-subforum-btn {
+.knockster-subforum-btn {
   margin-left: 0.5em;
   opacity: 75%;
+}
+
+.knockster-pinned-subforum {
+  box-shadow: 0 0 8px 2px #3fa34d !important;
+  border: 2px solid #3fa34d !important;
 }

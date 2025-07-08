@@ -3,10 +3,10 @@ import style from "../style"
 import { getSettings, setSettings } from "../settings"
 
 export default {
-  id: "hidesubforums",
-  name: "Mute subforums",
-  desc: "Allows you to mute subforums.",
-  settings: { hidden: [] },
+  id: "homepageimprovements",
+  name: "Homepage improvements",
+  desc: "Mute or pin subforums.",
+  settings: { hidden: [], pinned: [] },
 
   load() {
     /** Load in styles. */
@@ -14,57 +14,116 @@ export default {
   },
 
   page() {
-    const toHide = getSettings("hidesubforums").hidden ?? []
+    const settings = getSettings("homepageimprovements")
+    const toHide = settings.hidden ?? []
+    const toPin = settings.pinned ?? []
 
     /** Add hide buttons. */
     const subforumNames = document.querySelectorAll(".sf-name")
     for (const sfName of subforumNames) {
+      if (sfName.querySelector(".knockster-subforum-btn")) {
+        continue
+      }
       const subforum = sfName.parentElement.parentElement
+      const href = sfName.parentElement.getAttribute("href")
 
       /** Check if we have to remove subforums. */
-      const href = sfName.parentElement.getAttribute("href")
       if (toHide.includes(href)) {
         subforum.remove()
         continue
       }
 
-      /** Add hide button. */
+      /** Pinning logic */
+      if (toPin.includes(href)) {
+        subforum.classList.add("knockster-pinned-subforum")
+        subforum.style.order = -1
+      } else {
+        subforum.classList.remove("knockster-pinned-subforum")
+        subforum.style.order = ""
+      }
+
+      /** Hide button */
       const hideBtn = document.createElement("span")
-      hideBtn.className = "knockster-hide-subforum-btn"
-      hideBtn.innerHTML = `<i class="fa-solid fa-eye-low-vision"></i>`
+      hideBtn.className = "knockster-subforum-btn"
+      hideBtn.title = "Hide subforum"
+      hideBtn.innerHTML = `<i class=\"fa-solid fa-eye-low-vision\"></i>`
+      hideBtn.style.cursor = "pointer"
       hideBtn.onclick = (e) => {
-        /** Cancel click and remove element immediately. */
         e.preventDefault()
         e.stopImmediatePropagation()
         subforum.remove()
-
-        /** Add subforum to settings, and save. */
-        const existingHidden = getSettings("hidesubforums").hidden ?? []
-        setSettings("hidesubforums", {
-          hidden: [...existingHidden, href],
+        setSettings("homepageimprovements", {
+          ...settings,
+          hidden: [...(settings.hidden ?? []), href],
         })
       }
 
+      /** Pin button */
+      const pinBtn = document.createElement("span")
+      pinBtn.className = "knockster-subforum-btn"
+      pinBtn.title = toPin.includes(href) ? "Unpin subforum" : "Pin subforum"
+      pinBtn.innerHTML = toPin.includes(href)
+        ? `<i class=\"fa-solid fa-thumbtack\" style=\"color:#3fa34d\"></i>`
+        : `<i class=\"fa-regular fa-thumbtack\"></i>`
+      pinBtn.style.cursor = "pointer"
+      pinBtn.onclick = (e) => {
+        e.preventDefault()
+        e.stopImmediatePropagation()
+        let newPinned
+        if (toPin.includes(href)) {
+          newPinned = toPin.filter((h) => h !== href)
+        } else {
+          newPinned = [href, ...toPin.filter((h) => h !== href)]
+        }
+        setSettings("homepageimprovements", {
+          ...settings,
+          pinned: newPinned,
+        })
+        location.reload()
+      }
+
+      sfName.append(pinBtn)
       sfName.append(hideBtn)
     }
 
     /** Add restore button. */
-    if (toHide.length === 0) {
+    if (toHide.length === 0 && toPin.length === 0) {
       return // Do nothing.
     }
 
     /** Get container of sf entries. */
     const subforumContainer =
-      document.querySelector(".title-stats").parentElement.parentElement
+      document.querySelector(".title-stats")?.parentElement?.parentElement
 
     /** Insert a button to restore hidden subforums. */
-    const restoreBtn = document.createElement("button")
-    restoreBtn.innerText = "Restore hidden subforums"
-    restoreBtn.className = "knockster-button"
-    restoreBtn.onclick = () => {
-      setSettings("hidesubforums", { hidden: [] })
-      location.reload()
+    if (
+      subforumContainer &&
+      !subforumContainer.querySelector("button.knockster-restore-hidden")
+    ) {
+      const restoreBtn = document.createElement("button")
+      restoreBtn.innerText = "Restore hidden subforums"
+      restoreBtn.className = "knockster-button knockster-restore-hidden"
+      restoreBtn.onclick = () => {
+        setSettings("homepageimprovements", { ...settings, hidden: [] })
+        location.reload()
+      }
+      subforumContainer.append(restoreBtn)
     }
-    subforumContainer.append(restoreBtn)
+
+    /** Insert a button to restore pinned subforums. */
+    if (
+      subforumContainer &&
+      !subforumContainer.querySelector("button.knockster-restore-pinned") &&
+      toPin.length > 0
+    ) {
+      const restorePinBtn = document.createElement("button")
+      restorePinBtn.innerText = "Unpin all subforums"
+      restorePinBtn.className = "knockster-button knockster-restore-pinned"
+      restorePinBtn.onclick = () => {
+        setSettings("homepageimprovements", { ...settings, pinned: [] })
+        location.reload()
+      }
+      subforumContainer.append(restorePinBtn)
+    }
   },
 }
