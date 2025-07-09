@@ -1,7 +1,7 @@
+import type { Module } from "../module"
 import css from "../styles/ytunembedder.css"
-import style from "../style"
 
-function convert(embed) {
+function convert(embed: HTMLIFrameElement) {
   if (embed.classList.contains("yt-thumbnail-processed")) return
 
   const originalSrc = embed.getAttribute("src")
@@ -61,8 +61,7 @@ function convert(embed) {
 
     this.parentNode.replaceChild(videoIframe, this)
   })
-
-  embed.parentNode.setAttribute("class", "") // hack to solve vid spacing
+  ;(embed.parentNode as HTMLElement).setAttribute("class", "") // hack to solve vid spacing
   embed.parentNode.replaceChild(thumbnailContainer, embed)
 }
 
@@ -72,22 +71,22 @@ export default {
   desc: "Converts YouTube embeds to thumbnails so they only load when clicked.",
   default: true,
 
-  load() {
-    style(css)
+  load(mutation) {
+    mutation.createStyle(css, false)
 
     /** Setup observer for any new embeds */
     new MutationObserver((mutations) => {
       for (const mutation of mutations) {
         if (mutation.addedNodes) {
           for (const node of mutation.addedNodes) {
-            if (node.tagName === "IFRAME") {
-              this.convert(node)
-            } else if (node.nodeType === 1) {
+            if (node instanceof HTMLIFrameElement) {
+              convert(node)
+            } else if (node instanceof HTMLElement) {
               const iframes = node.querySelectorAll(
                 'iframe[src*="youtube.com/embed"], iframe[src*="youtube-nocookie.com/embed"]'
               )
               for (const iframe of iframes) {
-                convert(iframe)
+                convert(iframe as HTMLIFrameElement)
               }
             }
           }
@@ -107,4 +106,4 @@ export default {
       )
       .forEach(convert)
   },
-}
+} as Module

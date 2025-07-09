@@ -1,13 +1,12 @@
+import modules, { type Module } from "../module"
 import css from "../styles/settings.css"
-import style from "../style"
-import modules from "./_all"
 
 import { isModuleActive, setModuleActive } from "../settings"
 
 import { render, h } from "preact"
 import { useState, useRef, useEffect } from "preact/hooks"
 
-function ModuleToggle({ module }) {
+function ModuleToggle({ module }: { module: Module }) {
   const [configShown, setConfigShown] = useState(false)
   const Config = module.config
 
@@ -44,7 +43,10 @@ function ModuleToggle({ module }) {
           type="checkbox"
           checked={isModuleActive(module.id)}
           disabled={module.force}
-          onChange={(e) => setModuleActive(module.id, e.target.checked)}
+          onChange={(e) => {
+            setModuleActive(module.id, (e.target as HTMLInputElement).checked)
+            location.reload()
+          }}
         />
       </div>
     </div>
@@ -97,9 +99,9 @@ export default {
   desc: "Provides you with a useful settings menu for extensions.",
   force: true,
 
-  load() {
+  load(mutation) {
     /** Load in styles. */
-    style(css)
+    mutation.createStyle(css, false)
 
     /** Locate the replies menu. */
     const repliesMenu = document.querySelector(".replies-menu")
@@ -114,4 +116,4 @@ export default {
     repliesMenu.insertAdjacentElement("afterend", rootBtn)
     render(<SettingsMenu />, rootBtn)
   },
-}
+} as Module

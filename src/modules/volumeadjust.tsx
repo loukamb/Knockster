@@ -1,3 +1,4 @@
+import type { Module } from "../module"
 import { getSettings, setSettings } from "../settings"
 import { useState, useCallback } from "preact/hooks"
 
@@ -24,7 +25,9 @@ export default {
           min={0}
           max={100}
           value={volumeValue}
-          onChange={(e) => setVolume(e.target.valueAsNumber)}
+          onChange={(e) =>
+            setVolume((e.target as HTMLInputElement).valueAsNumber)
+          }
           style={{ flexGrow: "2" }}
         />
         {volumeValue}%
@@ -44,4 +47,4 @@ export default {
       video.volume = volume / 100
     }
   },
-}
+} as Module

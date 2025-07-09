@@ -1,4 +1,4 @@
-import style from "../style"
+import type { Module } from "../module"
 import css from "../styles/fourchan.css"
 
 export default {
@@ -7,8 +7,8 @@ export default {
   desc: "Makes everyone anonymous.",
   default: false,
 
-  load() {
-    style(css)
+  load(mutation) {
+    mutation.createStyle(css, false)
   },
 
   page() {
@@ -20,4 +20,4 @@ export default {
       node.classList.add("processed")
     })
   },
-}
+} as Module

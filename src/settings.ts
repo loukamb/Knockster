@@ -1,4 +1,4 @@
-import modules from "./modules/_all"
+import Modules from "./module"
 
 /** Currently stored module data. */
 let currentModuleData = {}
@@ -8,7 +8,7 @@ let currentModuleData = {}
  */
 function saveModuleData() {
   const saved = {}
-  for (const module of modules) {
+  for (const module of Modules) {
     saved[module.id] = {
       active: currentModuleData[module.id]?.active ?? true,
       settings: currentModuleData[module.id]?.settings ?? module.settings,
@@ -20,14 +20,14 @@ function saveModuleData() {
 /**
  * Check if module is active.
  */
-export function isModuleActive(moduleId) {
+export function isModuleActive(moduleId: string) {
   return currentModuleData[moduleId].active
 }
 
 /**
  * Enable/disable module.
  */
-export function setModuleActive(moduleId, value) {
+export function setModuleActive(moduleId: string, value: boolean) {
   currentModuleData[moduleId].active = value ?? true
   saveModuleData()
 }
@@ -35,14 +35,14 @@ export function setModuleActive(moduleId, value) {
 /**
  * Return settings for provided module.
  */
-export function getSettings(moduleId) {
+export function getSettings(moduleId: string) {
   return currentModuleData[moduleId].settings
 }
 
 /**
  * Set settings for provided module.
  */
-export function setSettings(moduleId, settings) {
+export function setSettings(moduleId: string, settings: Record<string, any>) {
   currentModuleData[moduleId].settings = settings
   saveModuleData()
   return settings
@@ -52,8 +52,8 @@ export function setSettings(moduleId, settings) {
  * Load existing settings and set default values otherwise.
  */
 export function initSettings() {
-  const moduleRequests = {}
-  for (const module of modules) {
+  const moduleRequests: Record<string, any> = {}
+  for (const module of Modules) {
     moduleRequests[module.id] = {
       active: module.default ?? true,
       settings: module.settings,

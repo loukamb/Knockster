@@ -1,10 +1,10 @@
-import style from "../style"
+import type { Module } from "../module"
 import css from "../styles/thumbnailer.css"
 
 import { render } from "preact"
-import { useState, useCallback } from "preact/hooks"
+import { useState } from "preact/hooks"
 
-function ImageViewer({ src }) {
+function ImageViewer({ src }: { src: string }) {
   const [expanded, setExpanded] = useState(false)
   const [zoom, setZoom] = useState(100)
   const [position, setPosition] = useState({ x: 0, y: 0 })
@@ -72,20 +72,22 @@ export default {
   desc: "Downsizes images and allows you to expand them.",
   default: true,
 
-  load() {
-    style(css)
+  load(mutation) {
+    mutation.createStyle(css, false)
   },
 
   page() {
     /** Select all images in posts. */
-    const imagesInPosts = document.querySelectorAll("img.image")
+    const imagesInPosts: HTMLImageElement[] = Array.from(
+      document.querySelectorAll("img.image")
+    )
 
     /** Replace them. */
     for (const img of imagesInPosts) {
-      const src = img.getAttribute("src")
-      const parent = img.parentNode
+      const src = img.getAttribute("src")!
+      const parent = img.parentElement
       parent.innerHTML = "" // Erase existing contents.
       render(<ImageViewer src={src} />, parent)
     }
   },
-}
+} as Module

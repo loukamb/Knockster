@@ -1,6 +1,6 @@
-import css from "../styles/hidesubforums.css"
-import style from "../style"
+import type { Module } from "../module"
 import { getSettings, setSettings } from "../settings"
+import css from "../styles/hidesubforums.css"
 
 export default {
   id: "homepageimprovements",
@@ -8,12 +8,12 @@ export default {
   desc: "Mute or pin subforums.",
   settings: { hidden: [], pinned: [] },
 
-  load() {
+  load(mutation) {
     /** Load in styles. */
-    style(css)
+    mutation.createStyle(css, false)
   },
 
-  page() {
+  page(mutation) {
     let settings = getSettings("homepageimprovements")
     const toHide = settings.hidden ?? []
     const toPin = settings.pinned ?? []
@@ -21,11 +21,8 @@ export default {
     /** Add hide buttons. */
     const subforumNames = document.querySelectorAll(".sf-name")
     for (const sfName of subforumNames) {
-      if (sfName.querySelector(".knockster-subforum-btn")) {
-        continue
-      }
-      const subforum = sfName.parentElement.parentElement
-      const href = sfName.parentElement.getAttribute("href")
+      const subforum = sfName.parentElement!.parentElement!
+      const href = sfName.parentElement!.getAttribute("href")
 
       /** Check if we have to remove subforums. */
       if (toHide.includes(href)) {
@@ -36,14 +33,14 @@ export default {
       /** Pinning logic */
       if (toPin.includes(href)) {
         subforum.classList.add("knockster-pinned-subforum")
-        subforum.style.order = -1
+        subforum.style.order = "-1"
       } else {
         subforum.classList.remove("knockster-pinned-subforum")
-        subforum.style.order = ""
+        subforum.style.order = "0"
       }
 
       /** Hide button */
-      const hideBtn = document.createElement("span")
+      const hideBtn = mutation.createElement("span")
       hideBtn.className = "knockster-subforum-btn"
       hideBtn.title = "Hide subforum"
       hideBtn.innerHTML = `<i class=\"fa-solid fa-eye-low-vision\"></i>`
@@ -59,7 +56,7 @@ export default {
       }
 
       /** Pin button */
-      const pinBtn = document.createElement("span")
+      const pinBtn = mutation.createElement("span")
       pinBtn.className = "knockster-subforum-btn"
       pinBtn.title = toPin.includes(href) ? "Unpin subforum" : "Pin subforum"
       pinBtn.innerHTML = toPin.includes(href)
@@ -100,7 +97,7 @@ export default {
       subforumContainer &&
       !subforumContainer.querySelector("button.knockster-restore-hidden")
     ) {
-      const restoreBtn = document.createElement("button")
+      const restoreBtn = mutation.createElement("button")
       restoreBtn.innerText = "Restore hidden subforums"
       restoreBtn.className = "knockster-button knockster-restore-hidden"
       restoreBtn.onclick = () => {
@@ -119,7 +116,7 @@ export default {
       !subforumContainer.querySelector("button.knockster-restore-pinned") &&
       toPin.length > 0
     ) {
-      const restorePinBtn = document.createElement("button")
+      const restorePinBtn = mutation.createElement("button")
       restorePinBtn.innerText = "Unpin all subforums"
       restorePinBtn.className = "knockster-button knockster-restore-pinned"
       restorePinBtn.onclick = () => {
@@ -132,4 +129,4 @@ export default {
       subforumContainer.append(restorePinBtn)
     }
   },
-}
+} as Module

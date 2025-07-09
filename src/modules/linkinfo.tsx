@@ -1,5 +1,5 @@
+import type { Module } from "../module"
 import css from "../styles/linkinfo.css"
-import style from "../style"
 
 export default {
   id: "linkinfo",
@@ -7,24 +7,26 @@ export default {
   desc: "Attaches information to external links.",
 
   /** Load in styles. */
-  load() {
-    style(css)
+  load(mutation) {
+    mutation.createStyle(css, false)
   },
 
   page() {
     /** Select all links within posts. */
-    const postLinks = document.querySelectorAll(".post-content a")
+    const postLinks: HTMLAnchorElement[] = Array.from(
+      document.querySelectorAll(".post-content a")
+    )
 
     for (const link of postLinks) {
       /** Skip if already processed */
-      if (link.hasLinkInfo) {
+      if ((link as any).hasLinkInfo) {
         continue
       }
 
       /** Extract href */
       let href
       try {
-        href = new URL(link.getAttribute("href"))
+        href = new URL(link.getAttribute("href")!)
       } catch (e) {
         continue // URL is malformed (or local, starting with '/') so we can't really check.
       }
@@ -53,7 +55,7 @@ export default {
 
       /** Insert preview element. */
       link.insertAdjacentElement("afterend", previewNode)
-      link.hasLinkInfo = true
+      ;(link as any).hasLinkInfo = true
     }
   },
-}
+} as Module

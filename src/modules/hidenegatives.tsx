@@ -1,4 +1,4 @@
-import style from "../style"
+import type { Module } from "../module"
 import css from "../styles/hidenegatives.css"
 
 export default {
@@ -7,7 +7,7 @@ export default {
   desc: "Removes negative reactions.",
   default: false,
 
-  load() {
-    style(css)
+  load(mutation) {
+    mutation.createStyle(css, false)
   },
-}
+} as Module

@@ -1,10 +1,11 @@
+import type { Module } from "../module"
 import { getSettings, setSettings } from "../settings"
 import { useState } from "preact/hooks"
-import style from "../style"
+import Mutation from "../mutation"
 
 const MODULE_ID = "userfilter"
 
-function getUserIdFromHref(href) {
+function getUserIdFromHref(href: string) {
   const match = href && href.match(/^\/user\/(\d+)/)
   return match ? match[1] : null
 }
@@ -13,7 +14,7 @@ function getFilters() {
   return getSettings(MODULE_ID).filters ?? {}
 }
 
-function setFilters(filters) {
+function setFilters(filters: Record<string, any>) {
   setSettings(MODULE_ID, { filters })
 }
 
@@ -25,49 +26,32 @@ function getGlobalSettings() {
   }
 }
 
-function setGlobalSettings(newSettings) {
+function setGlobalSettings(newSettings: Record<string, any>) {
   setSettings(MODULE_ID, {
     ...getSettings(MODULE_ID),
     ...newSettings,
   })
 }
 
-let globalAvatarStyle = null
-let globalBackgroundStyle = null
-
-function applyGlobalStyles() {
-  const { hideAvatars, hideBackgrounds } = getGlobalSettings()
-  if (hideAvatars) {
-    if (!globalAvatarStyle) {
-      globalAvatarStyle = style(".user-avatar{display:none!important;}")
-    }
-  } else {
-    if (globalAvatarStyle) {
-      globalAvatarStyle.remove()
-      globalAvatarStyle = null
-    }
-  }
-  if (hideBackgrounds) {
-    if (!globalBackgroundStyle) {
-      globalBackgroundStyle = style(
-        ".user-background-image{display:none!important;}"
-      )
-    }
-  } else {
-    if (globalBackgroundStyle) {
-      globalBackgroundStyle.remove()
-      globalBackgroundStyle = null
-    }
-  }
-}
-
 let existingPlaceholders = []
 
-function applyFilters() {
-  applyGlobalStyles()
+let alreadyAppliedGlobalStyles = false
+function applyFilters(mutation: Mutation) {
+  /** Apply global styles */
+  if (!alreadyAppliedGlobalStyles) {
+    const { hideAvatars, hideBackgrounds } = getGlobalSettings()
+    if (hideAvatars) {
+      mutation.createStyle(".user-avatar{display:none!important;}")
+    }
+    if (hideBackgrounds) {
+      mutation.createStyle(".user-background-image{display:none!important;}")
+    }
+    alreadyAppliedGlobalStyles = true
+  }
+
   const filters = getFilters()
-  const profileLinks = document.querySelectorAll(
-    'a.profile-link[href^="/user/"]'
+  const profileLinks: HTMLAnchorElement[] = Array.from(
+    document.querySelectorAll('a.profile-link[href^="/user/"]')
   )
   for (const link of profileLinks) {
     const userId = getUserIdFromHref(link.getAttribute("href"))
@@ -89,7 +73,7 @@ function applyFilters() {
 
     const btnContainer = document.createElement("span")
     btnContainer.className = "knockster-userfilter-btn-container"
-    btnContainer.style.zIndex = 100
+    btnContainer.style.zIndex = "100"
     btnContainer.style.display = "flex"
     btnContainer.style.gap = "0.3em"
     btnContainer.style.marginTop = "0.5em"
@@ -103,7 +87,12 @@ function applyFilters() {
       bg.parentElement.style.position = "relative"
     }
 
-    const makeBtn = (icon, active, title, onClick) => {
+    const makeBtn = (
+      icon: string,
+      active: boolean,
+      title: string,
+      onClick: () => void
+    ) => {
       const btn = document.createElement("span")
       btn.className = "knockster-userfilter-btn"
       btn.title = title
@@ -126,7 +115,7 @@ function applyFilters() {
           ...filters,
           [userId]: { ...filter, muteBackground: !filter.muteBackground },
         })
-        applyFilters()
+        applyFilters(mutation)
       })
     )
 
@@ -136,7 +125,7 @@ function applyFilters() {
           ...filters,
           [userId]: { ...filter, muteAvatar: !filter.muteAvatar },
         })
-        applyFilters()
+        applyFilters(mutation)
       })
     )
     btnContainer.appendChild(
@@ -149,7 +138,7 @@ function applyFilters() {
             ...filters,
             [userId]: { ...filter, mutePost: !filter.mutePost },
           })
-          applyFilters()
+          applyFilters(mutation)
         }
       )
     )
@@ -159,29 +148,29 @@ function applyFilters() {
     if (filter.muteAvatar) {
       const avatar = postContainer.querySelector(".user-avatar")
       if (avatar) {
-        avatar.style.display = "none"
+        ;(avatar as HTMLElement).style.display = "none"
       }
     } else {
       const avatar = postContainer.querySelector(".user-avatar")
       if (avatar) {
-        avatar.style.display = ""
+        ;(avatar as HTMLElement).style.display = ""
       }
     }
 
     if (filter.muteBackground) {
       const bg = postContainer.querySelector(".user-background-image")
       if (bg) {
-        bg.style.display = "none"
+        ;(bg as HTMLElement).style.display = "none"
       }
     } else {
       const bg = postContainer.querySelector(".user-background-image")
       if (bg) {
-        bg.style.display = ""
+        ;(bg as HTMLElement).style.display = ""
       }
     }
 
     if (filter.mutePost) {
-      if (!postContainer.knocksterUserfilterReplaced) {
+      if (!(postContainer as any).knocksterUserfilterReplaced) {
         const placeholder = document.createElement("div")
         placeholder.className = "knockster-userfilter-reveal-placeholder"
         placeholder.style.width = "100%"
@@ -196,14 +185,14 @@ function applyFilters() {
           //placeholder.replaceWith(postContainer)
           postContainer.style.display = ""
           placeholder.style.display = "none"
-          postContainer.knocksterUserfilterReplaced = false
+          ;(postContainer as any).knocksterUserfilterReplaced = false
         }
 
         placeholder.appendChild(revealBtn)
         postContainer.style.display = "none"
         postContainer.insertAdjacentElement("afterend", placeholder)
-        postContainer.knocksterUserfilterReplaced = true
-        postContainer.knocksterUserfilterPlaceholder = placeholder
+        ;(postContainer as any).knocksterUserfilterReplaced = true
+        ;(postContainer as any).knocksterUserfilterPlaceholder = placeholder
       }
     }
   }
@@ -216,15 +205,15 @@ export default {
   default: true,
   settings: { filters: {}, hideAvatars: false, hideBackgrounds: false },
 
-  page() {
+  page(mutation) {
     // First thing first
-    for (const placeholder of existingPlaceholders) {
+    /*for (const placeholder of existingPlaceholders) {
       placeholder.remove()
     }
     existingPlaceholders = []
 
-    // Then apply the filters
-    applyFilters()
+    // Then apply the filters*/
+    applyFilters(mutation)
   },
 
   config() {
@@ -251,7 +240,6 @@ export default {
     const toggleGlobal = (key) => {
       setGlobalSettings({ [key]: !global[key] })
       updateGlobal()
-      setTimeout(applyGlobalStyles, 0)
     }
 
     const userIds = Object.keys(filters)
@@ -331,4 +319,4 @@ export default {
       </div>
     )
   },
-}
+} as Module
