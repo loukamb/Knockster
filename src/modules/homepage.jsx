@@ -14,7 +14,7 @@ export default {
   },
 
   page() {
-    const settings = getSettings("homepageimprovements")
+    let settings = getSettings("homepageimprovements")
     const toHide = settings.hidden ?? []
     const toPin = settings.pinned ?? []
 
@@ -52,7 +52,7 @@ export default {
         e.preventDefault()
         e.stopImmediatePropagation()
         subforum.remove()
-        setSettings("homepageimprovements", {
+        settings = setSettings("homepageimprovements", {
           ...settings,
           hidden: [...(settings.hidden ?? []), href],
         })
@@ -75,7 +75,7 @@ export default {
         } else {
           newPinned = [href, ...toPin.filter((h) => h !== href)]
         }
-        setSettings("homepageimprovements", {
+        settings = setSettings("homepageimprovements", {
           ...settings,
           pinned: newPinned,
         })
@@ -104,7 +104,10 @@ export default {
       restoreBtn.innerText = "Restore hidden subforums"
       restoreBtn.className = "knockster-button knockster-restore-hidden"
       restoreBtn.onclick = () => {
-        setSettings("homepageimprovements", { ...settings, hidden: [] })
+        settings = setSettings("homepageimprovements", {
+          ...settings,
+          hidden: [],
+        })
         location.reload()
       }
       subforumContainer.append(restoreBtn)
@@ -120,7 +123,10 @@ export default {
       restorePinBtn.innerText = "Unpin all subforums"
       restorePinBtn.className = "knockster-button knockster-restore-pinned"
       restorePinBtn.onclick = () => {
-        setSettings("homepageimprovements", { ...settings, pinned: [] })
+        settings = setSettings("homepageimprovements", {
+          ...settings,
+          pinned: [],
+        })
         location.reload()
       }
       subforumContainer.append(restorePinBtn)

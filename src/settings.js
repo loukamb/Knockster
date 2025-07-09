@@ -45,6 +45,7 @@ export function getSettings(moduleId) {
 export function setSettings(moduleId, settings) {
   currentModuleData[moduleId].settings = settings
   saveModuleData()
+  return settings
 }
 
 /**
