@@ -1,4 +1,4 @@
-import css from "./ytunembedder.css"
+import css from "../styles/ytunembedder.css"
 import style from "../style"
 
 function convert(embed) {

@@ -1,4 +1,4 @@
-import css from "./linkinfo.css"
+import css from "../styles/linkinfo.css"
 import style from "../style"
 
 export default {
@@ -16,6 +16,11 @@ export default {
     const postLinks = document.querySelectorAll(".post-content a")
 
     for (const link of postLinks) {
+      /** Skip if already processed */
+      if (link.hasLinkInfo) {
+        continue
+      }
+
       /** Extract href */
       let href
       try {
@@ -48,6 +53,7 @@ export default {
 
       /** Insert preview element. */
       link.insertAdjacentElement("afterend", previewNode)
+      link.hasLinkInfo = true
     }
   },
 }

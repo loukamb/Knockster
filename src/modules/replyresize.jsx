@@ -1,4 +1,4 @@
-import css from "./replyresize.css"
+import css from "../styles/replyresize.css"
 import style from "../style"
 
 export default {

@@ -1,5 +1,5 @@
 import style from "../style"
-import css from "./thumbnailer.css"
+import css from "../styles/thumbnailer.css"
 
 import { render } from "preact"
 import { useState, useCallback } from "preact/hooks"

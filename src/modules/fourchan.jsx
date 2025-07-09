@@ -1,5 +1,5 @@
 import style from "../style"
-import css from "./fourchan.css"
+import css from "../styles/fourchan.css"
 
 export default {
   id: "fourchan",

@@ -1,5 +1,5 @@
 import style from "../style"
-import css from "./hidenegatives.css"
+import css from "../styles/hidenegatives.css"
 
 export default {
   id: "hidenegatives",

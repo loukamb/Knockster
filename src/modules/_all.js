@@ -1,6 +1,6 @@
 import settings from "./settings"
 import linkinfo from "./linkinfo"
-import hidesubforums from "./hidesubforums"
+import homepage from "./homepage"
 import hidenegatives from "./hidenegatives"
 import fourchan from "./fourchan"
 import thumbnailer from "./thumbnailer"
@@ -13,7 +13,7 @@ import userfilter from "./userfilter"
 export default [
   settings,
   linkinfo,
-  hidesubforums,
+  homepage,
   userfilter,
   hidenegatives,
   fourchan,

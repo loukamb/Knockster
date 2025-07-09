@@ -2,7 +2,7 @@ import style from "./style"
 import modules from "./modules/_all"
 import { initSettings, isModuleActive } from "./settings"
 
-import knocksterStyles from "./index.css"
+import knocksterStyles from "./styles/index.css"
 
 /** Load in settings. */
 initSettings()

@@ -1,4 +1,4 @@
-import css from "./hidesubforums.css"
+import css from "../styles/hidesubforums.css"
 import style from "../style"
 import { getSettings, setSettings } from "../settings"
 

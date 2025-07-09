@@ -1,4 +1,4 @@
-import css from "./settings.css"
+import css from "../styles/settings.css"
 import style from "../style"
 import modules from "./_all"
 
