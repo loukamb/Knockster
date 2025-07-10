@@ -38,7 +38,7 @@ For convenience, if you are on Linux and you have `wl-clipboard` installed, run 
 
 Write new modules in `/src/modules`. Include a `page` function in your exported module to perform work **after** the page loads and the interface finishes rendering. Include a `load` function to perform work **as soon as possible.**
 
-Import your module's export into `/src/modules/_all.js` and add it to the array.
+Import your module's export into `/src/module.ts` and add it to the exported array.
 
 ## License
 
