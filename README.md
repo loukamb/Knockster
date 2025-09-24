@@ -2,6 +2,9 @@
 
 [ViolentMonkey](https://violentmonkey.github.io/)/[GreaseMonkey](https://addons.mozilla.org/en-US/firefox/addon/greasemonkey/) script that extends [Knockout](https://knockout.chat) with some quality-of-life features. Duct-tape quality; here be dragons.
 
+>[!NOTE]
+>While still very usable as of the writing of this comment, I've discontinued the development of this script as I've left Knockout. I've found it increasingly difficult to enjoy its community and found some tolerated behaviors unreconcilable with my idea of human dignity. That said, I wish its people the best and hope they persevere in the face of adversity.
+
 ## Extensions
 
 ### Available
